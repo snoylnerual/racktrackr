@@ -69,3 +69,10 @@ MonthlySnapshot: userId, month (YYYY-MM), totalsByCategory (json), incomeTotal, 
 MonthExplanation: userId, month, comparedToMonth, summary, drivers (json array)
 
 This makes your “explainability” a first-class feature (not a hacky UI string).
+
+
+
+
+
+
+- could potentially make things movable and snappable for your dashboards
