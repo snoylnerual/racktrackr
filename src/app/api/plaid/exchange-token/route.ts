@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'; 
-import { Configuration, PlaidApi, PlaidEnvironments, Products, CountryCode } from 'plaid';
+import { Configuration, PlaidApi, PlaidEnvironments } from 'plaid';
 import { getServerSession } from "next-auth/next";
 import { options } from "@/lib/auth/options";
 import { Plaid } from 'react-plaid-link';

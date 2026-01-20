@@ -1,17 +1,15 @@
 import "server-only";
 import { NextResponse, NextRequest } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth/next";
 import { options } from "@/lib/auth/options";
-import { includes } from "zod";
+import { prisma } from "@/lib/prisma";
 
 
 export async function GET() {
     const session = await getServerSession(options);
     const userId = session!.user!.id!;
-
     try {
-        const accounts = prisma.account.findMany({ 
+        const accounts = await prisma.account.findMany({ 
             where: {
                 userId,
             }, 
