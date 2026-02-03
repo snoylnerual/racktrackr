@@ -1,10 +1,3 @@
-// TODO: Disconnect Bank
-// TODO: Add new bank through plaid
-// TODO: Delete my data
-// TODO: Delete my account
-// TODO: Add possibility to map category names to custom names
-// TODO: Add other name mapping possibilities
-
 "use client";
 
 import {
@@ -14,7 +7,7 @@ import {
 } from "@/components/ui/hover-card"
 import { useSession } from "next-auth/react";
 
-export default function Settings() {
+export default function WIP() {
 
   const { status } = useSession();
   
@@ -48,11 +41,7 @@ export default function Settings() {
 
           <HoverCardContent side={"bottom"} className="w-md max-w-[90vw] bg-pastelgreen">
             <h2 className="pb-3 text-center font-semibold">This page is under construction.</h2>
-            <p className="text-center">
-              The settings page will allow you to control the settings of your account and bank data. 
-              It will allow you to delete your account, your data, disconnect a bank, add a new bank,
-              controls allowed accounts and more.
-            </p>
+            <p className="text-center">Data</p>
           </HoverCardContent>
         </HoverCard>
     </div>

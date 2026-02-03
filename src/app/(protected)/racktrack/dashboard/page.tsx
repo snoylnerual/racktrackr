@@ -7,6 +7,34 @@ import {
 } from "@/components/ui/hover-card"
 import { useSession } from "next-auth/react";
 
+// TODO: different charts
+// the plan is to do a modular dashboard where you can choose which 
+// charts best work for you and save them off. The saving off will
+// most likely start with one front page that has static dashboard
+// choices. Then I would like to add the possibility to choose from
+// a selection of many charts. Then the possibility to add some 
+// custom charts. Then the possibility to move them around and the
+// last charts that you had on your dashboard will stay there.
+// Then hopefully different sets of dashboards that you can save off
+// and click to pull up. You would have a maximum of different
+// dashboards you could create.
+
+// Example charts
+// Spending over time trend line (day, month, year)
+// spending over time bar chart (day, month, year)
+    // possibly be able to click the (day,month,year) and have all
+    // of the transactions pull up on a separate page
+// pie chart for categorical spending
+// overall account balance
+// overall plus and minus for accounts
+// savings line chart
+// budget progress bars
+
+// start with recharts, possibly explore charts.js, and finally do d3.js
+// d3.js works good for custom visuals but has a steep learning curve
+// victory id good for data analytics
+// nivo is good for pretty dashboards
+
 export default function Dashboard() {
 
   const { status } = useSession();
