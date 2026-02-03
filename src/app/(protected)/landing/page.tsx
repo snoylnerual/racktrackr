@@ -4,7 +4,12 @@ import Link from "next/link";
 import { useEffect, useMemo, useState, useRef } from "react";
 import { usePlaidLink } from "react-plaid-link";
 import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
 import { Card } from "@/components/ui/card";
+import { signOut } from "next-auth/react";
+import { formatMoney } from "@/lib/utils";
+
+
 
 type AccountBalance = {
   id: string;
@@ -23,18 +28,6 @@ function mapToAccountBalance(arr: any[]): AccountBalance[] {
     }
     return curr
   })
-}
-
-function formatMoney(amount: number, currency = "USD") {
-  try {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency,
-      maximumFractionDigits: 2,
-    }).format(amount);
-  } catch {
-    return `$${amount.toFixed(2)}`;
-  }
 }
 
 export default function LandingPage() {
@@ -121,6 +114,12 @@ export default function LandingPage() {
     };
   }, [refetchKey]);
 
+  const { status } = useSession();
+
+  if (status === "loading") {
+    return <span>Loading...</span>;
+  }
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-pastelgreen to-muted px-6 py-10">
       <div className="mx-auto max-w-6xl space-y-8">
@@ -132,10 +131,14 @@ export default function LandingPage() {
               Your hub for budgets, dashboards, and transactions.
             </p>
           </div>
-
-          <Button variant="default" className="bg-pine">
-            Settings
-          </Button>
+          <div className="flex gap-2">
+            <Button asChild variant="default" className="bg-pine" >
+              <Link href="/settings">Settings</Link>
+            </Button>
+            <Button variant="default" className="bg-pine" onClick={() => signOut({ callbackUrl: "/" })} >
+              Sign Out
+            </Button>
+          </div>
         </header>
 
         {/* Accounts row */}
