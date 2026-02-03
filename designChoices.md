@@ -4,7 +4,7 @@
 
 - only redo queryString when search button is pressed
 
-
+- right now the project can handle responsive database filters since there is not much data and only a certain amount can be seen on the web page.
 
 
 

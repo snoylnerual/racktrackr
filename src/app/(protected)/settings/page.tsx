@@ -4,6 +4,7 @@
 // TODO: Delete my account
 // TODO: Add possibility to map category names to custom names
 // TODO: Add other name mapping possibilities
+// TODO: change default of transactions seen on transactions page
 
 "use client";
 

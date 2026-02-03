@@ -41,17 +41,13 @@ import {
 } from "@/components/ui/combobox";
 
 import { Fragment } from "react";
-import { formatMoney } from "@/lib/utils";
-
-type Transaction = {
-  transactionId: string,
-  name: string,
-  category: string,
-  merchantName: string,
-  amount: number,
-  date: Date,
-  account: string,
-}
+import { 
+  formatMoney,
+  isoNDaysAgo, 
+  isoToday,
+  mapTransactions,
+  Transaction,
+} from "@/lib/utils";
 
 // type TransactionFilter = {
 //     count: number,
@@ -187,20 +183,6 @@ type Transaction = {
 // TODO: Sync now button to get data from plaid bank connection link
 
 
-function mapTransactions(unmappedTransactions: any[]): Transaction[] {
-    return unmappedTransactions.map((transaction) => {
-        return {
-            transactionId: transaction.id,
-            name: transaction.name,
-            category: transaction.category,
-            merchantName: transaction.merchantName,
-            amount: transaction.amount,
-            date: transaction.date,
-            account: transaction.account.name,
-        }
-    });
-}
-
 function mapCategories(unmappedCategories: any[]): string[] {
   return unmappedCategories.map((category) => {
     return category.category;
@@ -224,52 +206,12 @@ function formatDate(date: Date) {
   return new Intl.DateTimeFormat("en-US").format(new Date(date))
 }
 
-
-
-
-
-// type Txn = {
-//   id: string;
-//   date: string; // "2026-01-15"
-//   name: string;
-//   merchant?: string | null;
-//   amount: number; // positive = spending (common pattern), but you can decide
-//   currency?: string | null; // "USD"
-//   category?: string | null;
-//   pending?: boolean;
-//   account: {
-//     id: string;
-//     name: string;
-//     mask?: string | null;
-//   };
-// };
-
-// type Category = {
-//   name: string;
-// }
-
 type AccountOption = {
   id: string;
   name: string;
   // mask?: string | null;
 };
 
-function isoToday(): string {
-  const d = new Date();
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  const dd = String(d.getDate()).padStart(2, "0");
-  return `${yyyy}-${mm}-${dd}`;
-}
-
-function isoNDaysAgo(n: number): string {
-  const d = new Date();
-  d.setDate(d.getDate() - n);
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  const dd = String(d.getDate()).padStart(2, "0");
-  return `${yyyy}-${mm}-${dd}`;
-}
 
 export default function TransactionsPage() {
   // Filters
@@ -329,20 +271,14 @@ export default function TransactionsPage() {
         if (catRes.ok) {
           const data = await catRes.json();
           if (mounted) {
-            // console.log(data)
             const mappedCategories: string[] = mapCategories(data.categories) ?? [];
-            // console.log("category data")
-            // console.log(mappedCategories)
             setCategories(mappedCategories);
             setSelectedCategories(mappedCategories);
           }
-          // console.log(mapCategories(data.categories))
         }
 
         if (accRes.ok) {
           const data = await accRes.json();
-          // console.log("account data")
-          // console.log(data)
           if (mounted) {
             const mappedAccounts: AccountOption[] = mapAccounts(data.accounts);
             setAccounts(mappedAccounts ?? []);
@@ -351,7 +287,6 @@ export default function TransactionsPage() {
             });
             setAccountIds(aList);
             setAccountsList(aList);
-          // console.log(mapAccounts(data.accounts))
           }
         }
       } catch {
@@ -396,6 +331,10 @@ export default function TransactionsPage() {
     };
   }, [refreshKey, queryString]);
 
+
+  // TODO: fix resetFilters implementation
+  // requires solidifying used filter names
+  // and whether I use responsive database searches
   function resetFilters() {
     setQ("");
     // setCategory("all");
